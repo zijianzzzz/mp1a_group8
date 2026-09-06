@@ -40,7 +40,7 @@
                     "name": "PrimaryButton",
                     "type": "Button",
                     "id": "204073bf-582e-48f4-a392-6eaf1e637387",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false,
@@ -433,6 +433,17 @@
                 },
                 {
                     "name": "",
+                    "id": "44facef1-51a3-46a4-b534-13e41b3dee22",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3dfde460-9bef-4bd9-943d-170adc171ff8",
                     "path": "<XRController>{LeftHand}/{PrimaryTouch}",
                     "interactions": "",
@@ -559,6 +570,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR Usage",
+                    "action": "SecondaryButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d7a959d-e697-4fbc-b930-dbd30b7d41bc",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "SecondaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
