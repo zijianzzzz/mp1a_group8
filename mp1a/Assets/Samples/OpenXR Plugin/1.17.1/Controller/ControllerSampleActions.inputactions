@@ -433,17 +433,6 @@
                 },
                 {
                     "name": "",
-                    "id": "44facef1-51a3-46a4-b534-13e41b3dee22",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3dfde460-9bef-4bd9-943d-170adc171ff8",
                     "path": "<XRController>{LeftHand}/{PrimaryTouch}",
                     "interactions": "",
@@ -570,17 +559,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR Usage",
-                    "action": "SecondaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4d7a959d-e697-4fbc-b930-dbd30b7d41bc",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "SecondaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1315,17 +1293,6 @@
                 },
                 {
                     "name": "",
-                    "id": "00417bad-2a84-486f-a136-85fad0fa4455",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0657f0e8-4c3b-45d4-a00b-fda175a6684d",
                     "path": "<XRController>{RightHand}/{PrimaryTouch}",
                     "interactions": "",
@@ -1452,17 +1419,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR Usage",
-                    "action": "SecondaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3da8c52f-344d-4a03-8d46-d8236b839afd",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "SecondaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
