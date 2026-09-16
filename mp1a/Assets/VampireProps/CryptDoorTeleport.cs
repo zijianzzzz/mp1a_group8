@@ -18,6 +18,8 @@ public class CryptDoorTeleport : MonoBehaviour
         public string label;
         public Transform hinge;
         public bool groundPortal;
+        public bool requiresCarKey;
+        public PedestrianCarKey carKey;
     }
     [SerializeField] private Gate[] additionalGates = Array.Empty<Gate>();
     [SerializeField] private XROrigin xrOrigin;
@@ -101,6 +103,15 @@ public class CryptDoorTeleport : MonoBehaviour
     {
         bool ready = seal.IsRevealed;
         var target = AimedDoor();
+        // Inventory can change while the player keeps aiming at the same door.
+        foreach (var gate in additionalGates)
+            if (gate.requiresCarKey && gate.hint != null)
+            {
+                bool unlocked = gate.carKey != null && gate.carKey.IsUsed;
+                bool hasKey = gate.carKey != null && gate.carKey.HasKey;
+                gate.hint.text = unlocked || hasKey ? "car unlocked" : "car locked";
+                gate.hint.color = target == gate.target ? Color.cyan : unlocked ? new Color(.3f, 1f, .55f) : Color.white;
+            }
         if (target == lastTarget && ready == lastReady) return;
         lastTarget = target;
         lastReady = ready;
@@ -128,6 +139,7 @@ public class CryptDoorTeleport : MonoBehaviour
         if (gate != null)
         {
             if (gate.destination == null) return;
+            if (gate.requiresCarKey && (gate.carKey == null || !gate.carKey.TryUseKey())) return;
             nextTeleportTime = float.PositiveInfinity;
             StartCoroutine(EnterGate(gate));
             return;

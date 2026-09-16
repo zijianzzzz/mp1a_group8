@@ -118,3 +118,48 @@ FIVE_GATE_PLAYMODE_PASSED (final test6.log, true runtime prefab clones):
 Earlier harness issues corrected: targeted socket child instead of prefab root, cooldown timing, cylinder capsule collision bulges, and editor-only connected prefab instantiation. Final runtime-clone run has none of those errors.
 Known isolated-editor startup noise: UnityEditor.Search.SearchDatabase ArgumentOutOfRangeException; unrelated to runtime tests, which completed successfully.
 Limitations: full main-scene headset/simulator walkthrough and target-platform build not run. Test XR rig supplies pointing transforms and uses XRSimulatedController button events; production NearFar cast-origin behavior uses the existing implementation.
+
+2026-09-16 — Blood bat collectibles
+BLOOD_BAT_BUILD_PASSED: 4 bats, hidden original vial, saved TMP house scoreboard.
+BLOOD_BAT_PLAYMODE_PASSED (final test4.log, isolated Unity 6000.5.6f1):
+- Real NearFarInteractor components with XRSimulatedController grip input; right-hand ray hover and selection tested.
+- Left grip and aiming without grip leave score unchanged.
+- A held grip counts a caught bat only once; model and collider hide during cooldown.
+- Bat is still unavailable before five seconds, then returns and can be caught again.
+- Vial stays inactive for counts 0, 1 and 2; becomes active at 3; scoreboard changes to ready.
+- Released vial keeps Rigidbody/grab behavior and unlocks the original Blood Tithe socket.
+- Catching a respawned bat increments to 4 without resetting the installed vial or duplicating keys.
+- Fresh round resets count to zero and vial to inactive.
+- Native URP previews reviewed for bat silhouette and house empty/reward states.
+Main Assembly-CSharp compilation with Unity's project response file: exit 0.
+Saved prefab: all 1,074 existing object IDs preserved; only four existing blocks changed (root components, root children, house children, blood-vial nested instance active override); 234 native blocks added. YAML block ordering restored for a focused diff without changing serialized data.
+Known prior scene font overrides reference six IDs absent from the original prefab; unchanged by this task. New right-controller override targets the saved collection component and existing right-controller transform.
+Known isolated-editor startup SearchDatabase ArgumentOutOfRangeException appears before tests; final runtime tests passed with no feature exceptions.
+Limitations: full main-scene headset walkthrough and a platform build were not run.
+
+2026-09-16 Planet silver stake puzzle
+PASS: Native prefab generation and two isolated Unity Play Mode runs (PLANET_PUZZLE_PLAYMODE_PASSED).
+PASS: Right-hand selection, hover/left-hand rejection, held-grip rejection, wrong reset, ordered sequence, eased cage, delayed release, released stake ray grab, original coffin acceptance, solved state, resized portal targeting; three locks and four bats retained.
+PASS: Main-project first-party C# compilation with existing Unity reference assemblies (exit 0).
+PASS: All 1290 pre-change prefab blocks retained, 164 new blocks, native generated data preserved exactly, internal fileIDs resolve, right-controller scene override assigned.
+PASS: Locked and unlocked rendered layouts inspected.
+LIMIT: Isolated Editor startup logs include the pre-existing UnityEditor.Search.SearchDatabase ArgumentOutOfRangeException; no feature test failure. Full main-scene/headset walkthrough not run.
+
+2026-09-16 Pedestrian car key gates
+PASS: Native isolated Unity prefab generation (CAR_KEYS_BUILD_PASSED).
+PASS: Isolated Unity Play Mode with NearFarInteractor and simulated right-controller grip events (CAR_KEYS_PLAYMODE_PASSED): initial locked/no teleport and find-key hint; distant/left/hover rejection; blue collection and controller parenting; wrong-car rejection without consumption; blue key destruction and cabin travel; no repeated pickup; permanent unlock state; free return; green collection/consumption/destruction and travel; only two gate entries require keys; all three relic locks retained.
+PASS: Main-project C# compilation with existing Unity references (exit 0).
+PASS: All 715 original ParkingLot serialized blocks retained plus 48 new blocks; all 1454 VampireRelics blocks retained; internal references resolve and native generated data preserved; both pickup right-hand bindings and cross-prefab car gate references verified.
+LIMIT: Full main-scene/headset visual walkthrough not run. The known isolated UnityEditor.Search.SearchDatabase startup exception remains unrelated to passing feature tests.
+
+2026-09-16 Pickup sounds and decoy cube
+PASS: Isolated Unity native asset generation (PICKUP_SOUND_BUILD_PASSED), final Play Mode run (PICKUP_SOUND_PLAYMODE_PASSED), and main-project C# compile (exit 0).
+PASS: Three relic keys use yeah; decoy uses hmm; no automatic/hover/release playback; player grab and re-grab play; socket selection does not play. Both real car-key collection flows with NearFarInteractor and controller input events played yeah after acquisition, with no repeat playback. Cube has gravity, falls/tumbles, and is rejected by all three VampireLock types. Saved cube placement verified.
+PASS: Existing serialized IDs preserved across five modified prefabs; local references resolve; native generated serialized data preserved exactly. Six PickupSound components verified across five useful keys and one decoy; mono/preloaded clip import settings verified.
+LIMIT: Playback verified through AudioSource.isPlaying and correct clip references, not subjective headset listening. Full main-scene walkthrough not run. Known isolated Editor SearchDatabase startup exception remains unrelated to passing tests.
+
+2026-09-16 Twelve additional decoys (13 total)
+PASS: Isolated native Unity generation and compilation (TWELVE_DECOYS_BUILD_PASSED), Play Mode validation (THIRTEEN_DECOYS_PLAYMODE_PASSED).
+PASS: All 13 decoys have gravity bodies/colliders/grab interactables, fall and tumble, play hmm on grab/regrab but not release, and are rejected by all three relic locks. Exactly 13 distinct named decoys coexist with the original three VampireKeys and three VampireLocks. Physical placement fixture with authored room geometry verified every prop settles above the floor with support beneath it. Unrelated gameplay scripts were removed only from the placement test fixture.
+PASS: 1456 pre-change wrapper blocks preserved; 58 new blocks added. Internal fileIDs resolve. Twelve prefab assets and saved cone meshes/material exist. Final orange material/mug visual polish preserved all object IDs. Final native model preview reviewed and saved as Docs/Decoy-models.png. Preview uses equivalent built-in shading, not the main URP lighting.
+LIMIT: Full main-scene/headset walkthrough and subjective audio balance not tested. Existing isolated Editor SearchDatabase startup exception remains unrelated to passing feature tests.
