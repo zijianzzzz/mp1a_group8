@@ -136,3 +136,11 @@ The existing cube remains in front of the house. Useful key pickups still play y
 Model preview: Docs/Decoy-models.png. Read left-to-right by row: book/candle holder/mug/picture frame; pumpkin/trowel/watering can/cone; soda can/sunglasses/rocket/brush. This preview uses equivalent built-in shading.
 
 The original test cube is now an ivory die with black pips numbered 1-6; opposing faces sum to seven. It retains the DecoyCube.prefab path/GUID, physical collider, grab settings, hmm sound, and house-front position. Scene name: DecoyDie. There are still 13 distinct decoys.
+
+## Invisible writing on the planet
+
+The planet board now keeps its question and viewing hint visible: "What is the night's order? The moon reveals its secret from the left. Stand on the crescent." Its answer, MOON > BAT > COFFIN, is a separate solid TMP text object using AngleRevealedTMP.shader and MoonSecretText.mat. The original visible answer sentence has been removed.
+
+Stand on the small gold crescent on the left side of the landing plate and look at the board. The shader reveals the answer near a 40-degree left viewing angle: fully visible within 6 degrees, with a 4-degree soft fade outside that band. Straight-on, right-side, and rear views remain invisible. It uses horizontal viewing angle so player height does not prevent discovery. Camera eye selection is stereo-aware; actual headset comfort still needs a walkthrough.
+
+Visibility is calculated in the fragment shader, including fading the TMP outline, with no runtime script toggling the text. The shader adapts the project's existing TMP mobile SDF shader and retains its font atlas and text rendering features. DisableBatching preserves the per-object viewing origin. The material inspector exposes reveal angle, half-width and fade width. The gold crescent is native mesh geometry without a collider, at planet-local (-0.85, 0.004, 0.18), safely within the platform and separate from the return portal and toy rocket.
