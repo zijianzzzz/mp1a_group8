@@ -10,11 +10,8 @@ public class SpatialSoundFeedback : MonoBehaviour
     [SerializeField] private AudioSource teleportArrival;
     [SerializeField] private AudioSource welcome;
     [SerializeField] private AudioSource farewell;
-    [SerializeField] private AudioSource normalCarHorn;
-    [SerializeField] private AudioSource darkCarHorn;
     [SerializeField] private Transform listener;
 
-    private bool bloodMoonActive;
     private bool welcomed;
 
     public void WelcomeOnce()
@@ -28,20 +25,11 @@ public class SpatialSoundFeedback : MonoBehaviour
     public void SetBloodMoonActive(bool active)
     {
         WelcomeOnce();
-        bloodMoonActive = active;
         Stop(normalBodySounds);
         Stop(darkBodySounds);
         Stop(peopleGasps);
         Play(active ? darkBodySounds : normalBodySounds);
         if (active) Play(peopleGasps);
-    }
-
-    public void PlayCarHorn()
-    {
-        WelcomeOnce();
-        Stop(normalCarHorn);
-        Stop(darkCarHorn);
-        Play(bloodMoonActive ? darkCarHorn : normalCarHorn);
     }
 
     public void BeforeTeleport()
@@ -63,8 +51,6 @@ public class SpatialSoundFeedback : MonoBehaviour
         Stop(darkBodySounds);
         Stop(peopleGasps);
         Stop(welcome);
-        Stop(normalCarHorn);
-        Stop(darkCarHorn);
         Stop(teleportDeparture);
         Stop(teleportArrival);
         PlaceNearListener(farewell);
@@ -113,7 +99,5 @@ public class SpatialSoundFeedback : MonoBehaviour
         Stop(teleportArrival);
         Stop(welcome);
         Stop(farewell);
-        Stop(normalCarHorn);
-        Stop(darkCarHorn);
     }
 }

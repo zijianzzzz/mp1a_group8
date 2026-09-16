@@ -7,7 +7,11 @@ Unity VR project for CS 417.
 `SampleScene` includes a `Parking Lot Decorations` prefab with eight parking bays,
 lane markings, a crosswalk, four planted trees, an attendant cottage, three people,
 a bench, street lamps, a parking sign, bollards, and a litter bin. The center aisle
-remains open and the original car stays in place.
+remains open. The car is built from Unity cubes and cylinders in
+`mp1a/Assets/Decorations/PrimitiveCar.prefab`, using the existing decoration
+materials. Its body, roof, windows, wheels, mirrors and lights are editable
+children, with one static collider. It requires no Blender installation or
+external model import. The old car prefab and Blender model were removed.
 
 Edit `mp1a/Assets/Decorations/ParkingLot.prefab` to move or recolor individual props.
 The decorations are static visual objects; the original floor provides collision.
@@ -17,12 +21,22 @@ a generator. If the scene was already open when the files changed, reload
 
 ## Controls
 
+### Vampire relics
+
+Three key pedestals stand separately in front of the lock stations. Aim the right
+controller at a key (gold highlight), hold grip to bring it to your hand (cyan),
+then drop it anywhere on its matching lock table. In the simulator, select the
+right controller with `]` and hold left mouse in Point and Click mode (or `G`) to grip. Blood vial/chalice opens the
+reliquary, silver stake/coffin opens its lid, and bat medallion/crypt raises the
+gate. Wrong props are rejected. Both hands retain direct grabbing; all keys have
+gravity and solid colliders. The goal sign teaches the pairings and tracks all three seals; victory requires all three matching props installed and their eased opening animations complete. See [Vampire relic setup](mp1a/Docs/VampireRelics.md).
+
 | Action | XR controller | XR simulator keyboard | Result |
 | --- | --- | --- | --- |
+| Use crypt / return door | Aim left controller + left secondary | `Shift + 2` | After both prerequisite locks, teleport through the aimed-at door. |
 | Quit | Right-hand primary button | `1` | Plays the farewell cue, waits for it to finish, then stops Play mode or quits the build. |
 | Toggle blood moon | Right-hand secondary button | `2` | Toggles between the original scene lighting and a dim, dark-red light. Press again to restore the original color and intensity. |
 | Switch view location | Left-hand primary button | `Shift + 1` | Alternates between the room and the external viewing point and plays a small doorway fog puff. |
-| Shoot ball | Left-hand secondary button | `Shift + 2` | Spawns a ball in front of the left controller, projects that controller's aim onto an orbital tangent and launches it at `sqrt(gravity / distance)`, and plays spatial sound and a particle burst there. Planet gravity bends its path afterward. |
 
 ## Input setup
 
@@ -37,7 +51,7 @@ a generator. If the scene was already open when the files changed, reload
 
 ## Core Requirements
 
-All Core Requirements are satisfied:
+Current feature checklist (the object spawning/shooting feature has been removed):
 
 - [x] Particle Bursts
 - [x] Spatial Sound
@@ -50,23 +64,14 @@ All Core Requirements are satisfied:
 - [x] Kinematic Double Integrators
 - [x] XR Controller Inputs
 - [x] Quit Key
-- [x] Object Spawning
+- [ ] Object Spawning (removed)
 - [x] Camera Teleport
 
 ## Side Quests
 
-- Particle Feedback Content: sixteen input-triggered emitters total: one shooting burst, three celestial clouds, four tree bursts, three person bursts, two lamp sparks, two window mists, and one doorway puff. The first fourteen environmental emitters use the blood moon toggle; the doorway uses view switching; shooting has its own action. This reaches the rubric's sixteen-emitter threshold (3 points), subject to acceptance of multiple emitters sharing one input.
+- Particle Feedback Content: fifteen input-triggered emitters: three celestial clouds, four tree bursts, three person bursts, two lamp sparks, two window mists, and one doorway puff. Fourteen use the blood moon toggle; the doorway uses view switching.
 
-- [x] Object Shooter: each spawned ball stores its own velocity and adds it to its position every `Update` using `Time.deltaTime`. Its initial direction comes from the left controller, with the radial component removed as permitted by Perfect Orbits. Gravity updates its stored velocity continuously.
 - [x] Arbitrary Orbiter: the comet's double integrator calculates acceleration from the live position of the assigned planet Transform rather than a hardcoded world-space point.
-- [x] Perfect Orbits: launch velocity is tangent to the attractor and has magnitude `sqrt(gravity / distance)`. Directly radial aim uses the controller's up direction as the fallback tangent. Gravity continues every Update using semi-implicit Euler substeps of at most 1/120 second; orbits are numerical approximations.
-
-To verify Object Shooter in the XR simulator, select the left controller and aim it
-away from the headset's forward direction. Shoot and check that the ball starts
-just ahead of that controller and travels along the tangent closest to its aim, then curves around the planet.
-A directly inward/outward aim instead uses the controller-up fallback tangent. Rotating only the headset should not change the launch direction when
-the controller's world rotation stays fixed. FPS/point-and-click simulation may
-move the controller with the mouse, so inspect the left controller pose separately.
 
 Blood moon visual check: enter Play mode with the Game window focused. Initially
 there should be no clouds or droplet bursts. Press simulator `2`: all three bodies
@@ -80,7 +85,7 @@ To check the added feedback, press simulator `2` to see lamp sparks and window m
 
 ## Spatial audio
 
-All 16 AudioSources are saved in the hierarchy, with Spatial Blend 1, Play On Awake off, no looping, and distance attenuation. Used clips in `Assets/sound_effect` import as mono with preloaded audio data; the original MP3 files are unchanged. `SpatialSoundFeedback` on Point Light holds the source references and routes the existing gameplay events.
+All 13 AudioSources are saved in the hierarchy, with Spatial Blend 1, Play On Awake off, no looping, and distance attenuation. Used clips in `Assets/sound_effect` import as mono with preloaded audio data; the original MP3 files are unchanged. `SpatialSoundFeedback` on Point Light holds the source references and routes the existing gameplay events.
 
 | Sources | Location | Trigger / clips |
 | --- | --- | --- |
@@ -88,14 +93,12 @@ All 16 AudioSources are saved in the hierarchy, with Spatial Blend 1, Play On Aw
 | 2 | Moon children | Normal: bell1; blood moon: bell2 at lower pitch |
 | 2 | Comet children | Whoosh, higher pitch for normal and lower for blood moon |
 | 3 | One Startled Gasp child per person | gasp1 / gasp2 / gasp3 when blood moon begins |
-| 2 | Car children | car_beep on normal shots; lower-pitched horn on blood moon shots |
 | 2 | Spatial Audio Feedback group | Departure at the previous listener position; arrival at the new position when switching views |
-| 1 | Spatial Audio Feedback / Welcome - First Input | Welcome traveler once on the first light toggle, view switch, or successful shot |
+| 1 | Spatial Audio Feedback / Welcome - First Input | Welcome traveler once on the first light toggle or view switch |
 | 1 | Spatial Audio Feedback / Farewell - Before Quit | bye before quitting, with a clip-length delay |
-| 1 | shooting_ball_sound | fireball on each successful shot |
 
-The six body sources follow their moving objects. Gasps stop when normal mode returns, and switching modes stops the opposite body cues. The two car horns are mutually exclusive. Welcome, farewell, and teleport sources are placed in world space near the listener when triggered, rather than remaining parented to the headset. `car_drop.mp3` is not used for these cues.
+The six body sources follow their moving objects. Gasps stop when normal mode returns, and switching modes stops the opposite body cues. Welcome, farewell, and teleport sources are placed in world space near the listener when triggered, rather than remaining parented to the headset. `car_drop.mp3` is not used for these cues.
 
 Stop Play, allow the audio imports to finish, and reload SampleScene before testing the new references. Listen while turning your head to check direction and adjust each source's Volume in the Inspector as needed. The voice identities of gasp1-3 have not been confirmed by listening; swap clips between the person AudioSources if necessary.
 
-Spatial Sound Content: 16 separate input-triggered spatial audio generators, meeting the rubric's 16-generator threshold (3 points).
+Spatial Sound Content: 13 input-triggered spatial audio generators.
